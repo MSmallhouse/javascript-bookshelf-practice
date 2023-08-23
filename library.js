@@ -4,6 +4,8 @@ const newBookButton = document.getElementById("newBook");
 const confirmButton = document.getElementById("confirmBtn");
 const dialog = document.querySelector("dialog");
 const title = document.getElementById("title");
+const author = document.getElementById("author");
+const numberOfPages = document.getElementById("numberOfPages");
 
 function Book(title, author, pages, read) {
     this.title = title;
@@ -28,8 +30,7 @@ function displayBooks(myLibrary) {
     myLibrary.forEach((book) => {
         let row = shelves.insertRow();
         let cell = row.insertCell();
-        cell.textContent = book.title;
-        //cell.textContent = book.info();
+        cell.textContent = `${book.title} by ${book.author}, ${book.pages} pages`;
     })
 }
 
@@ -38,23 +39,21 @@ newBookButton.addEventListener("click", () => {
 })
 
 title.addEventListener("change", () => {
-    confirmButton.value = title.value;
+    confirmButton.value = newBook;
 })
 
 dialog.addEventListener("close", (e) => {
-    let newTitle = dialog.returnValue;
-    let newBook = new Book(newTitle);
-    addBookToLibrary(newBook);
     displayBooks(myLibrary);
 })
 
 
 confirmButton.addEventListener("click", (event) => {
     event.preventDefault();
-    dialog.close(title.value);
+    let newBook = new Book(title.value, author.value, numberOfPages.value);
+    addBookToLibrary(newBook);
+    console.log(newBook);
+    dialog.close(newBook);
 })
 
-let book1 = new Book("book1");
-addBookToLibrary(book1);
 
 displayBooks(myLibrary);
