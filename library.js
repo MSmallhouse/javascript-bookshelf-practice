@@ -28,12 +28,20 @@ function clearDisplay() {
 function displayBooks(myLibrary) {
     clearDisplay();
 
-    myLibrary.forEach((book) => {
+    for (let i=0; i<myLibrary.length; i++) {
+        let book = myLibrary[i];
         let row = shelves.insertRow();
+        row.setAttribute("row-index", `${i}`);
+
         let cell = row.insertCell();
         cell.textContent = `${book.title} by ${book.author}, ${book.pages} pages`;
         cell.textContent += (book.read) ? " read" : " unread";
-    })
+
+        removeButton = document.createElement("button");
+        removeButton.textContent = "Remove Book";
+        removeButton.setAttribute("id", "remove-button");
+        row.appendChild(removeButton);
+    }
 }
 
 newBookButton.addEventListener("click", () => {
