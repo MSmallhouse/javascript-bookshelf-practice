@@ -25,7 +25,8 @@ function clearDisplay() {
         shelves.deleteRow(0);
     }
 }
-function displayBooks(myLibrary) {
+
+function displayBooks() {
     clearDisplay();
 
     for (let i=0; i<myLibrary.length; i++) {
@@ -41,7 +42,16 @@ function displayBooks(myLibrary) {
         removeButton.textContent = "Remove Book";
         removeButton.setAttribute("id", "remove-button");
         row.appendChild(removeButton);
+        removeButton.addEventListener("click", removeButtonHandler);
     }
+}
+
+let removeButtonHandler = function() {
+    let row = this.parentElement;
+    let rowIndex = row.getAttribute("row-index");
+    shelves.deleteRow(rowIndex);
+    myLibrary.splice(rowIndex, 1);
+    // remove from Library now
 }
 
 newBookButton.addEventListener("click", () => {
@@ -56,14 +66,9 @@ dialog.addEventListener("close", (e) => {
     displayBooks(myLibrary);
 })
 
-
 confirmButton.addEventListener("click", (event) => {
     event.preventDefault();
     let newBook = new Book(title.value, author.value, numberOfPages.value, read.checked);
     addBookToLibrary(newBook);
-    console.log(newBook);
     dialog.close(newBook);
 })
-
-
-displayBooks(myLibrary);
