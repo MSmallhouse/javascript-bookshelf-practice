@@ -36,13 +36,32 @@ function displayBooks() {
 
         let cell = row.insertCell();
         cell.textContent = `${book.title} by ${book.author}, ${book.pages} pages`;
-        cell.textContent += (book.read) ? " read" : " unread";
+
+        readOption = document.createElement("button");
+        readOption.textContent = "Read";
+        readOption.setAttribute("id", `read-option-button-${i}`);
+        readOption.addEventListener("click", readOptionButtonHandler);
+        row.appendChild(readOption);
 
         removeButton = document.createElement("button");
         removeButton.textContent = "Remove Book";
         removeButton.setAttribute("id", "remove-button");
-        row.appendChild(removeButton);
         removeButton.addEventListener("click", removeButtonHandler);
+        row.appendChild(removeButton);
+
+    }
+}
+
+let readOptionButtonHandler = function() {
+    let index = this.id.charAt(this.id.length - 1);
+    let book = myLibrary[index];
+    if (this.textContent === "Read") {
+        this.textContent = "Unread";
+        book.read = false;
+    }
+    else {
+        this.textContent = "Read";
+        book.read = true;
     }
 }
 
